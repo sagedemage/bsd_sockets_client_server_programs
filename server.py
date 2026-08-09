@@ -1,11 +1,10 @@
-# Async echo server program
+# Echo Server Program
 import socket
-import asyncio
 
 HOST = ""
 PORT = 8080
 
-async def main():
+def main():
     # Socket Address Families:
     # 1. AF_INET: IPv4 Address
     # 2. AF_INET6: IPv6 Address
@@ -15,28 +14,26 @@ async def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.bind((HOST, PORT))
         sock.listen(1)
-        sock.setblocking(False)
         print("Server listening on 127.0.0.1:8080")
 
-        loop = asyncio.get_running_loop()
         while True:
-            conn, addr = await loop.sock_accept(sock)
+            conn, addr = sock.accept()
             with conn:
                 c_addr = addr[0]
                 c_port = addr[1]
                 print("Connected by", f"{c_addr}:{c_port}")
 
                 while True:
-                    data = await loop.sock_recv(conn, 1024)
+                    data = conn.recv(1024)
                     if data == b'':
                         # Client disconnected. Closing the connection.
                         # You should close the conenction to prevent
                         # the "Address already in" use error
                         break
                     else:
-                        await loop.sock_sendall(conn, data)
+                        conn.sendall(data)
                         print(data)
                         print("")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
