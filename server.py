@@ -28,7 +28,7 @@ def main():
                     if data == b'':
                         # Client disconnected. Closing the connection.
                         # You should close the conenction to prevent
-                        # the "Address already in" use error
+                        # the "Address already in use" error
                         break
                     else:
                         conn.sendall(data)
