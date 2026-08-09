@@ -11,7 +11,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     except ConnectionRefusedError:
         sys.exit("Error: Server is not open!")
     
-    sock.sendall(b'Hello, world')
+    sock.sendall(b'Hello')
     data = sock.recv(1024)
 
 print('Received', repr(data))
